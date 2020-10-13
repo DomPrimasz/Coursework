@@ -20,10 +20,42 @@
         }).then(response => {
                 if (response.hasOwnProperty("Error")) {
                 alert(JSON.stringify(response));        // if it does, convert JSON object to string and alert
-            } else {
+
+                }
+
+                else {
                 Cookies.set("token", response.token);
                 Cookies.set("username", response.username);
-                window.open("Home.html", "_self");       //open Home.html in same tab
+                window.open("Home.html", "_self");//open Home.html in same tab
+            }
+        });
+        }
+
+
+        function CheckAdminStatus() {
+            console.log("Invoked AdminCheck() ");
+
+            var url = "/user/check";
+            var formData = new FormData(document.getElementById('adminCheck'));
+
+            fetch(url, {
+                method: "POST",
+                body: formData,
+            }).then(response => {
+                return response.json();                 //now return that promise to JSON
+        }).then(response => {
+                if (response.hasOwnProperty("Error")) {
+                alert(JSON.stringify(response));        // if it does, convert JSON object to string and alert
+
+            }
+                if (response = 1){
+                    window.open("Admin.html", "_self");
+                }
+
+        else {
+                Cookies.set("token", response.token);
+                Cookies.set("username", response.username);
+                window.open("Home.html", "_self");//open Home.html in same tab
             }
         });
         }

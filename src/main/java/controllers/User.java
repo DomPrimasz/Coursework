@@ -16,7 +16,7 @@ public class User {
 
     @POST
     @Path("login")
-    public String loginUser(@FormDataParam("username") String username, @FormDataParam("password") String password) {
+    public String loginUser(@FormDataParam("username") String username, @FormDataParam("password") String password, @FormDataParam("admin") Integer admin){
         System.out.println("Invoked loginUser() on path user/login");
         try {
             PreparedStatement ps1 = Main.db.prepareStatement("SELECT Password FROM Users WHERE Username = ?");
@@ -24,6 +24,7 @@ public class User {
             ResultSet loginResults = ps1.executeQuery();
             if (loginResults.next() == true) {
                 String correctPassword = loginResults.getString(1);
+
                 if (password.equals(correctPassword)) {
                     String token = UUID.randomUUID().toString();
                     PreparedStatement ps2 = Main.db.prepareStatement("UPDATE Users SET Token = ? WHERE Username = ?");
@@ -31,10 +32,13 @@ public class User {
                     ps2.setString(2, username);
                     ps2.executeUpdate();
                     JSONObject userDetails = new JSONObject();
+
                     userDetails.put("username", username);
                     userDetails.put("token", token);
                     return userDetails.toString();
-                } else {
+
+                }
+                else {
                     return "{\"Error\": \"Incorrect password!\"}";
                 }
             } else {
@@ -44,5 +48,34 @@ public class User {
             System.out.println("Database error during /user/login: " + exception.getMessage());
             return "{\"Error\": \"Server side error!\"}";
         }
+
+    }
+    @POST
+    @Path("check")
+    public Integer adminCheck(@FormDataParam("admin") Integer admin){
+        System.out.println("Invoked adminCheck() on path user/check");
+        try {
+            PreparedStatement ps1 = Main.db.prepareStatement("SELECT Admin FROM Users WHERE Username = ?");
+            ResultSet loginResults = ps1.executeQuery();
+            if (loginResults.next() == true) {
+                Integer adminStatus = loginResults.getInt(1);
+
+                if (adminStatus == 1) {
+                    String token = UUID.randomUUID().toString();
+                    PreparedStatement ps2 = Main.db.prepareStatement("UPDATE Users SET Token = ? WHERE Username = ?");
+                    ps2.executeUpdate();
+                    JSONObject AdminStatus = new JSONObject();
+
+                    AdminStatus.put("admin", adminStatus);
+                    return adminStatus;
+
+                }
+
+            }
+        } catch (Exception exception) {
+            System.out.println("Database error during /user/login: " + exception.getMessage());
+
+        }
+        return null;
     }
 }
