@@ -1,0 +1,65 @@
+body
+{
+    
+    background-color: mediumpurple;
+    font-family: "Bodoni MT Black";
+    font-size: 40px;
+    text-align: center;
+
+}
+
+button
+{
+
+    background-color: red;
+
+}
+
+.Quiz1{
+    font-size: 20px;
+    border: 20px solid black;
+    background-color: lightseagreen;
+
+}
+
+.Quiz2{
+    font-size: 20px;
+    border: 20px solid black;
+    background-color: lightseagreen;
+
+}
+
+.Quiz3{
+    font-size: 20px;
+    border: 20px solid black;
+    background-color: lightseagreen;
+
+}
+
+.MiniText{
+    font-size: 15px;
+    color: purple;
+}
+
+.Toolbar{
+    border: 15px solid black;
+    background-color: black;
+}
+
+#ProfileButton{
+    font-size: 37px;
+    background-color: cornflowerblue;
+}
+
+#LogOutButton{
+    font-size: 37px;
+    background-color: cornflowerblue;
+
+}
+
+#CustomQuizButton{
+    font-size: 37px;
+    background-color: cornflowerblue;
+    margin-left: 120px;
+    margin-right: 120px;
+}
