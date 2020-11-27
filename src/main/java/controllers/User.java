@@ -91,7 +91,7 @@ public class User {
 
         try {
             PreparedStatement statement = Main.db.prepareStatement(
-                    "UPDATE Users SET Token = ? WHERE UUID = ?"
+                    "UPDATE Users SET UUID = ? WHERE UUID = ?"
             );
             statement.setString(1, UUID);
             statement.setInt(2, userID);
