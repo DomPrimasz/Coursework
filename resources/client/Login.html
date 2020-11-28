@@ -27,7 +27,7 @@
                 } else {
                     Cookies.set("token", response.token);
                     Cookies.set("username", response.username);
-                    if (response.isAdmin == 1){    // use dot notation to access object values, like record data structures
+                    if (response.isAdmin == 1) {    // use dot notation to access object values, like record data structures
                         window.open("Admin.html", "_self");//open Home.html in same tab
                     } else {
                         window.open("Home.html", "_self");//open Home.html in same tab
@@ -35,7 +35,6 @@
                 }
             });
         }
-
 
 
     </script>

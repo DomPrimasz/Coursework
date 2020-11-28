@@ -4,8 +4,46 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/home.css">
     <title>Home</title>
+
+    <script>
+
+        function pageLoad() {
+            console.log("invoked pageload");
+
+            //get the quizes and then display on page
+
+            const url = "/quiz/list/";	// API method on webserver will be in Weight class with @Path of list
+
+            fetch(url, {
+                method: "GET",
+            }).then(response => {
+                return response.json();                 //return response to JSON
+            }).then(response => {
+                if (response.hasOwnProperty("Error")) { //checks if response from server has a key "Error"
+                    alert(JSON.stringify(response));    // if it does, convert JSON object to string and alert
+                } else {
+                    formatQuizList(response);
+                }
+            });
+
+
+        }
+
+        function formatQuizList(response){
+            console.log("invoked formatQuizList");
+            console.log(response);
+
+            //use code from week 1 to write a for loop that builds on the HTML for a table with each row being data from one of the
+            //JSON objects in the JSON array of response
+
+
+
+        }
+
+
+    </script>
 </head>
-<body>
+<body onload="pageLoad()">
 Welcome to Quiz World!!
 <br>
 <div class="Toolbar">

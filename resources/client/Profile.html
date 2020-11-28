@@ -11,33 +11,33 @@
         function pageLoad() {
             console.log("Invoked pageLoad()");
 
-            getUserName();
+            let username = getCookie('username');
+            document.getElementById('username').innerHTML = username;
 
         }
 
-        function getUserName() {
-            console.log("Invoked getUserName()");
-            const url = "/user/name";
 
-            fetch(url, {
-                method: "GET"
-                //credentials: "include"            // doens't look like you even need this....????
-            }).then(response => {                       //returns a promise
-                return response.text();                 //now return that promise to text
-            }).then(response => {
-                if (response.startsWith("Error")) {   //checks if response from server has a key "Error:"
-                    alert(response);
-                } else {
-
-                    console.log(response.toString());
-                    document.getElementById("userName").innerHTML = response;           //otherwise put response on page in firstName div
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
                 }
-            })
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
         }
+
+
     </script>
 </head>
 <body class="center" onload="pageLoad()">
-Welcome <span id="userName"> </span>! <br>
+Welcome <span id="username"> </span>! <br>
 <br>
 
 </body>

@@ -47,7 +47,7 @@ public class User {
                     ps2.executeUpdate();
                     JSONObject userDetails = new JSONObject();
                     userDetails.put("username", username);
-                    userDetails.put("sessionToken", uuid);
+                    userDetails.put("token", uuid);
                     userDetails.put("isAdmin", isAdmin);
                     return userDetails.toString();
                 }
