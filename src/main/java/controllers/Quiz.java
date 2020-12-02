@@ -21,12 +21,13 @@ public class Quiz {
         System.out.println("Invoked quiz.quizList()");
         JSONArray response = new JSONArray();
         try {
-            PreparedStatement ps = Main.db.prepareStatement("SELECT QuizID, Title FROM Quizzes");
+            PreparedStatement ps = Main.db.prepareStatement("SELECT QuizID, Title, Description FROM Quizzes");
             ResultSet results = ps.executeQuery();
             while (results.next() == true) {
                 JSONObject row = new JSONObject();
                 row.put("QuizID", results.getInt(1));
                 row.put("Title", results.getString(2));
+                row.put("Description", results.getString(3));
                 response.add(row);
             }
             return response.toString();

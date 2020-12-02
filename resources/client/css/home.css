@@ -36,7 +36,17 @@ button
 
 }
 
-.MiniText{
+.MiniText1{
+    font-size: 15px;
+    color: purple;
+}
+
+.MiniText2{
+    font-size: 15px;
+    color: purple;
+}
+
+.MiniText3{
     font-size: 15px;
     color: purple;
 }
