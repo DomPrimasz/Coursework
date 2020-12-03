@@ -10,45 +10,33 @@ body
 
 button
 {
-
     background-color: red;
-
 }
 
-.Quiz1{
+table{
     font-size: 20px;
     border: 20px solid black;
     background-color: lightseagreen;
+    margin-left: 550px;
 
 }
 
-.Quiz2{
-    font-size: 20px;
-    border: 20px solid black;
-    background-color: lightseagreen;
-
+.QuizTitle{
+    font-size: 30px;
 }
 
-.Quiz3{
-    font-size: 20px;
-    border: 20px solid black;
-    background-color: lightseagreen;
-
+.QuizDescription{
+    color: royalblue;
 }
 
-.MiniText1{
+
+.alertQuizName{
+    margin-bottom: 20px;
+}
+
+tr{
     font-size: 15px;
-    color: purple;
-}
-
-.MiniText2{
-    font-size: 15px;
-    color: purple;
-}
-
-.MiniText3{
-    font-size: 15px;
-    color: purple;
+    color: black;
 }
 
 .Toolbar{
