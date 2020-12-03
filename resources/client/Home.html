@@ -35,11 +35,16 @@
 
             //use code from week 1 to write a for loop that builds on the HTML for a table with each row being data from one of the
             //JSON objects in the JSON array of response
+            let dataHTML = "";
 
 
+            dataHTML = "";
             for (let item of response) {                             //creates a table with rows for every item in JSON array
-                document.getElementById("Quiz1").innerHTML=item.Title;
+                dataHTML += "<tr><td>" + item.Title + "</td><td>" + item.Description +
+                    "</td><td> <button class='alertQuizName'  " +
+                    "data-QuizID='" + item.Title + "'>Start Quiz</button></td></tr>";
             }
+            document.getElementbyId("QuizTable").innerHTML += dataHTML;
 
 
         }
@@ -57,33 +62,8 @@ Welcome to Quiz World!!
 
 </div>
 <br><br>
-</body>
 
-<div class="Quiz1">
-    Trivia quiz
-    <div class="MiniText1">
-        Trivia Quiz regarding science, video games,
-        pop culture, just about anything!
-    </div>
-    <br><br>
-    <button type="button">Start Quiz</button>
-</div>
-<br>
-<div class="Quiz2">
-    Greg's Quiz
-    <div class="MiniText2">
-        The legendary Greg's quiz
-    </div>
-    <br><br>
-    <button type="button">Start Quiz</button>
-</div>
-<br>
-<div class="Quiz3">
-    Amazing Quiz
-    <div class="MiniText3">
-        What an amazing quiz
-    </div>
-    <br><br>
-    <button type="button">Start Quiz</button>
-</div>
+<table id="QuizTable"></table>
+
+</body>
 </html>
