@@ -39,19 +39,19 @@
 
 
             dataHTML = "";
-            for (let item of response) {                             //creates a table with rows for every item in JSON array
+            for (let item of response) {
                 dataHTML += "<tr class='QuizContainer'><td class='QuizTitle'>" + item.Title + "</td><td class='QuizDescription'>" + item.Description +
                     "</td><td> <button onclick='click' class='alertQuizName'  " +
-                    "data-QuizID='" + item.Title + "'>Start Quiz</button></td></tr>";
+                    "data-QuizID='" + item.QuizID + "'>Start Quiz</button></td></tr>";
             }
             document.getElementById("QuizTable").innerHTML += dataHTML;
 
 
             document.addEventListener("click", function (event) {
-                if (event.target.matches('.alertQuizName')) {                      //alertItemName is the class we gave all the button elements
-                    var QuizName = event.target.getAttribute("data-QuizID");        //data-itemID is an attribute we gave the button
-                    alert("You clicked on " + QuizName);
-                    sessionStorage.setItem("QuizName", QuizName);
+                if (event.target.matches('.alertQuizName')) {                      //alertQuizName is the class we gave all the button elements
+                    var QuizDetails = event.target.getAttribute("data-QuizID");//data-QuizID is an attribute we gave the button
+                    alert("You clicked on quiz with QuizID:" + QuizDetails);
+                    sessionStorage.setItem("QuizID", QuizDetails);
                     window.open("Quiz.html", "_self");
                 }
             });
