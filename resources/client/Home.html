@@ -49,8 +49,10 @@
 
             document.addEventListener("click", function (event) {
                 if (event.target.matches('.alertQuizName')) {                      //alertItemName is the class we gave all the button elements
-                    var itemName = event.target.getAttribute("data-QuizID");        //data-itemID is an attribute we gave the button
-                    alert("You clicked on " + itemName);
+                    var QuizName = event.target.getAttribute("data-QuizID");        //data-itemID is an attribute we gave the button
+                    alert("You clicked on " + QuizName);
+                    sessionStorage.setItem("QuizName", QuizName);
+                    window.open("Quiz.html", "_self");
                 }
             });
 
