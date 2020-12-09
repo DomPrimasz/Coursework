@@ -39,7 +39,7 @@ public class Quiz {
 
 
     @GET
-    @Path("listQuestions")
+    @Path("listQuestions/{QuizID}")
     public String questionList(@PathParam("QuizID") Integer QuizID) {
         System.out.println("Invoked Questions.QuestionList(");
         JSONArray response = new JSONArray();
@@ -64,7 +64,7 @@ public class Quiz {
 
 
     @GET
-    @Path("listAnswers")
+    @Path("listAnswers/{QuizID}")
     public String answerList(@PathParam("QuizID") Integer QuizID) {
         System.out.println("Invoked Answers.AnswerList(");
         JSONArray response = new JSONArray();

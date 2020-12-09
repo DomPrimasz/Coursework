@@ -92,7 +92,7 @@ function getQuestionList(){
     console.log("Invoked getQuestionList()");
 
     let QuizID = sessionStorage.getItem("QuizID");
-    const url = "/quiz/listQuestions";
+    const url = "/quiz/listQuestions/";
 
     fetch(url + QuizID, {
         method: "GET",
@@ -103,7 +103,7 @@ function getQuestionList(){
             alert(JSON.stringify(response));
         } else{
             console.log(response);
-            formatQuestionList(response);
+            //formatQuestionList(response);
         }
     })
 }
@@ -113,7 +113,7 @@ function getAnswerList(){
     console.log("Invoked getAnswerList()");
 
     let QuizID = sessionStorage.getItem("QuizID");
-    const url = "/quiz/listAnswers";
+    const url = "/quiz/listAnswers/";
 
     fetch(url + QuizID, {
         method: "GET",
@@ -123,7 +123,8 @@ function getAnswerList(){
         if (response.hasOwnProperty("Error")){
             alert(JSON.stringify(response));
         } else{
-            formatAnswerList(response);
+            console.log(response);
+            //formatAnswerList(response);
         }
     })
 }
