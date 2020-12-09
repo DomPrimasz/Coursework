@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-@Path("quiz/")
+@Path("/quiz/")
 @Consumes(MediaType.MULTIPART_FORM_DATA)
 @Produces(MediaType.APPLICATION_JSON)
 
@@ -36,6 +36,59 @@ public class Quiz {
             return "{\"Error\": \"Unable to list items.  Error code xx.\"}";
         }
     }
+
+
+    @GET
+    @Path("listQuestions")
+    public String questionList(@PathParam("QuizID") Integer QuizID) {
+        System.out.println("Invoked Questions.QuestionList(");
+        JSONArray response = new JSONArray();
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("SELECT QuestionID, Title FROM Questions WHERE QuizID = ?");
+            ps.setInt(1, QuizID);
+            ResultSet results = ps.executeQuery();
+            while (results.next() == true) {
+                JSONObject row = new JSONObject();
+                row.put("QuestionID", results.getInt(1));
+                row.put("Title", results.getString(2));
+                response.add(row);
+            }
+            return response.toString();
+
+        } catch (
+                Exception exception) {
+            System.out.println("Database Error: " + exception.getMessage());
+            return "Error";
+        }
+    }
+
+
+    @GET
+    @Path("listAnswers")
+    public String answerList(@PathParam("QuizID") Integer QuizID) {
+        System.out.println("Invoked Answers.AnswerList(");
+        JSONArray response = new JSONArray();
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("SELECT QuestionID, Description, Correct FROM Answers WHERE QuizID = ?");
+            ps.setInt(1, QuizID);
+            ResultSet results = ps.executeQuery();
+            while (results.next() == true) {
+                JSONObject row = new JSONObject();
+                row.put("QuestionID", results.getInt(1));
+                row.put("Description", results.getString(2));
+                row.put("Correct", results.getBoolean(3));
+                response.add(row);
+            }
+            return response.toString();
+
+        } catch (
+                Exception exception) {
+            System.out.println("Database Error: " + exception.getMessage());
+            return "Error";
+        }
+    }
+
+
 
     @GET
     @Path("get/{QuizID}")
