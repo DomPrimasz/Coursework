@@ -3,44 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Profile</title>
-
+    <link rel="stylesheet" href="css/Profile.css">
 
     <script>
         "use strict"
 
         function pageLoad() {
             console.log("Invoked pageLoad()");
+            let Username = sessionStorage.getItem("Username");
+            document.getElementById('username').innerHTML = sessionStorage.getItem("Username");
 
-            let username = getCookie('username');
-            document.getElementById('username').innerHTML = username;
 
-            const url = "/Achievements/list/";	// API method on webserver will be in Weight class with @Path of list
+            const url = "/user/listAchievements/";
+            const url2 = "/user/listCustomAchievements/";
 
-            fetch(url, {
+            fetch(url + Username, {
                 method: "GET",
             }).then(response => {
                 return response.json();                 //return response to JSON
             }).then(response => {
-                document.getElementById("Achievements").innerHTML = response;
+                document.getElementById("Achievements").innerHTML = response.Achievements;
+                console.log(response);
 
         })
+            fetch(url2 + Username, {
+                method: "GET",
+            }).then(response => {
+                return response.json();                 //return response to JSON
+            }).then(response => {
+                document.getElementById("CustomAchievements").innerHTML = response.CustomAchievements;
+                console.log(response);
+
+        })}
 
 
-        function getCookie(cname) {
-            var name = cname + "=";
-            var decodedCookie = decodeURIComponent(document.cookie);
-            var ca = decodedCookie.split(';');
-            for(var i = 0; i <ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) == ' ') {
-                    c = c.substring(1);
-                }
-                if (c.indexOf(name) == 0) {
-                    return c.substring(name.length, c.length);
-                }
-            }
-            return "";
-        }}
+
+
 
 
     </script>
@@ -52,5 +50,7 @@ Welcome <span id="username"> </span>! <br>
 Achievements earned: <span id="Achievements"> </span> <br>
 <br>
 
+Custom Achievements earned: <span id="CustomAchievements"></span> <br>
+<br>
 </body>
 </html>

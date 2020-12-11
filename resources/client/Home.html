@@ -26,6 +26,24 @@
                 }
             });
 
+            //Get user name from cookie
+            let username = ('username');
+            var name = username + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    sessionStorage.setItem("Username", c.substring(name.length, c.length));
+                    console.log(sessionStorage.getItem("Username"));
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+
 
         }
 
@@ -56,8 +74,13 @@
                 }
             });
 
-
         }
+
+
+
+
+
+
 
 
     </script>
@@ -68,7 +91,7 @@ Welcome to Quiz World!!
 <div class="Toolbar">
     <button id="ProfileButton" type="button" onclick=window.open("profile.html","_self")>Profile</button>
     <button id="CustomQuizButton" type="button">Custom Quizzes</button>
-    <button id="LogOutButton" type="button" onclick='window.open("Login.html", "_self")'>Logout</button>
+    <button id="LogOutButton" type="button" onclick=window.open("Login.html","_self") >Logout</button>
 
 </div>
 <br><br>

@@ -21,7 +21,7 @@ public class Quiz {
         System.out.println("Invoked quiz.quizList()");
         JSONArray response = new JSONArray();
         try {
-            PreparedStatement ps = Main.db.prepareStatement("SELECT QuizID, Title, Description FROM Quizzes");
+            PreparedStatement ps = Main.db.prepareStatement("SELECT QuizID, Title, Description FROM Quizzes WHERE Custom = 0");
             ResultSet results = ps.executeQuery();
             while (results.next() == true) {
                 JSONObject row = new JSONObject();

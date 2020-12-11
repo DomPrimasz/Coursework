@@ -4,6 +4,7 @@ import server.Main;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import javax.ws.rs.*;
@@ -153,8 +154,51 @@ public class User {
             ResultSet resultSet = statement.executeQuery();
             return resultSet.getString("FirstName");
         } catch (Exception e) {
-            return "{\"Error\": \"Something as gone wrong.  Please contact the administrator with the error code UC-UN. \"}";
+            return "{\"Error\": \"Something has gone wrong.  Please contact the administrator with the error code UC-UN. \"}";
         }
 
     }
+
+    @GET
+    @Path("listAchievements/{Username}")
+    public String achievementList(@PathParam("Username") String Username) {
+        System.out.println("Invoked User.listAchievements(");
+        JSONObject row = new JSONObject();
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("SELECT Achievements FROM Users WHERE Username = ?");
+            ps.setString(1, Username);
+            ResultSet results = ps.executeQuery();
+            while (results.next() == true) {
+                row.put("Achievements", results.getInt(1));
+            }
+            return row.toString();
+
+        } catch (
+                Exception exception) {
+            System.out.println("Database Error: " + exception.getMessage());
+            return "Error";
+        }
+    }
+
+    @GET
+    @Path("listCustomAchievements/{Username}")
+    public String CustomAchievementList(@PathParam("Username") String Username) {
+        System.out.println("Invoked User.listCustomAchievements(");
+        JSONObject row = new JSONObject();
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("SELECT CustomAchievements FROM Users WHERE Username = ?");
+            ps.setString(1, Username);
+            ResultSet results = ps.executeQuery();
+            while (results.next() == true) {
+                row.put("CustomAchievements", results.getInt(1));
+            }
+            return row.toString();
+
+        } catch (
+                Exception exception) {
+            System.out.println("Database Error: " + exception.getMessage());
+            return "Error";
+        }
+    }
+
 }
