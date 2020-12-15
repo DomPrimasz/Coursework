@@ -126,6 +126,10 @@ function getAnswerList(){
             console.log(response);
             //formatAnswerList(response);
         }
+
+        for (let item of response){
+
+        }
     })
 }
 
