@@ -84,7 +84,6 @@ function clearStatusClass(element){
 function pageLoad()
 {
     getQuestionList();
-    getAnswerList();
 }
 
 
@@ -105,33 +104,15 @@ function getQuestionList(){
             console.log(response);
             //formatQuestionList(response);
         }
+        questions = response;
+
+
+
+
     })
 }
 
 
-function getAnswerList(){
-    console.log("Invoked getAnswerList()");
-
-    let QuizID = sessionStorage.getItem("QuizID");
-    const url = "/quiz/listAnswers/";
-
-    fetch(url + QuizID, {
-        method: "GET",
-    }).then(response => {
-        return response.json();
-    }).then(response =>{
-        if (response.hasOwnProperty("Error")){
-            alert(JSON.stringify(response));
-        } else{
-            console.log(response);
-            //formatAnswerList(response);
-        }
-
-        for (let item of response){
-
-        }
-    })
-}
 
 
 let questions = [

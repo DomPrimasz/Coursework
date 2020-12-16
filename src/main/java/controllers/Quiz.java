@@ -44,47 +44,43 @@ public class Quiz {
         System.out.println("Invoked Questions.QuestionList(");
         JSONArray response = new JSONArray();
         try {
-            PreparedStatement ps = Main.db.prepareStatement("SELECT QuestionID, Title FROM Questions WHERE QuizID = ?");
+            PreparedStatement ps = Main.db.prepareStatement("SELECT Title FROM Questions WHERE QuizID = ?");
             ps.setInt(1, QuizID);
             ResultSet results = ps.executeQuery();
             while (results.next() == true) {
                 JSONObject row = new JSONObject();
-                row.put("QuestionID", results.getInt(1));
-                row.put("Title", results.getString(2));
+                row.put("question", results.getString(1));
+                row.put("answers", getAnswers(QuizID));
                 response.add(row);
             }
             return response.toString();
-
         } catch (
                 Exception exception) {
             System.out.println("Database Error: " + exception.getMessage());
-            return "Error";
+            return "{\"Error\": \"Unable to list items.  Error code xx.\"}";
         }
     }
 
 
-    @GET
-    @Path("listAnswers/{QuizID}")
-    public String answerList(@PathParam("QuizID") Integer QuizID) {
+    public JSONArray getAnswers(int quizID) {
         System.out.println("Invoked Answers.AnswerList(");
         JSONArray response = new JSONArray();
         try {
-            PreparedStatement ps = Main.db.prepareStatement("SELECT QuestionID, Description, Correct FROM Answers WHERE QuizID = ?");
-            ps.setInt(1, QuizID);
+            PreparedStatement ps = Main.db.prepareStatement("SELECT Description, Correct FROM Answers WHERE QuizID = ?");
+            ps.setInt(1, quizID);
             ResultSet results = ps.executeQuery();
             while (results.next() == true) {
                 JSONObject row = new JSONObject();
-                row.put("QuestionID", results.getInt(1));
-                row.put("Description", results.getString(2));
-                row.put("Correct", results.getBoolean(3));
+                row.put("text", results.getString(1));
+                row.put("correct", results.getBoolean(2));
                 response.add(row);
             }
-            return response.toString();
+            return response;
 
         } catch (
                 Exception exception) {
             System.out.println("Database Error: " + exception.getMessage());
-            return "Error";
+            return response ;
         }
     }
 
