@@ -41,16 +41,17 @@ public class Quiz {
     @GET
     @Path("listQuestions/{QuizID}")
     public String questionList(@PathParam("QuizID") Integer QuizID) {
-        System.out.println("Invoked Questions.QuestionList(");
+        System.out.println("Invoked Questions.QuestionList()");
         JSONArray response = new JSONArray();
         try {
-            PreparedStatement ps = Main.db.prepareStatement("SELECT Title FROM Questions WHERE QuizID = ?");
+            PreparedStatement ps = Main.db.prepareStatement("SELECT  Title, QuestionID FROM Questions WHERE QuizID = ?");
             ps.setInt(1, QuizID);
             ResultSet results = ps.executeQuery();
             while (results.next() == true) {
                 JSONObject row = new JSONObject();
                 row.put("question", results.getString(1));
-                row.put("answers", getAnswers(QuizID));
+                int questionID = results.getInt(2);
+                row.put("answers", getAnswers(QuizID, questionID));
                 response.add(row);
             }
             return response.toString();
@@ -62,12 +63,13 @@ public class Quiz {
     }
 
 
-    public JSONArray getAnswers(int quizID) {
-        System.out.println("Invoked Answers.AnswerList(");
+    public JSONArray getAnswers(int quizID, int questionID) {
+        System.out.println("Invoked Answers.AnswerList()");
         JSONArray response = new JSONArray();
         try {
-            PreparedStatement ps = Main.db.prepareStatement("SELECT Description, Correct FROM Answers WHERE QuizID = ?");
+            PreparedStatement ps = Main.db.prepareStatement("SELECT Description, Correct FROM Answers WHERE QuizID = ? AND QuestionID = ?");
             ps.setInt(1, quizID);
+            ps.setInt(2, questionID);
             ResultSet results = ps.executeQuery();
             while (results.next() == true) {
                 JSONObject row = new JSONObject();
