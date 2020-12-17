@@ -135,6 +135,41 @@ public class User {
         }
     }
 
+    @POST
+    @Path("add")
+    public String UserAdd(@FormDataParam("username") String username , @FormDataParam("password") String password) {
+        System.out.println("Invoked User.UserAdd()");
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Users (Username, Password) VALUES (?, ?)");
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.execute();
+            return "{\"OK\": \"Added User.\"}";
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"Error\": \"UserName already taken\"}";
+        }
+
+    }
+
+
+
+    @POST
+    @Path("updateAchievements/{Username}")
+    public String updateQuiz(@FormDataParam("Username") String Username) {
+        try {
+            System.out.println("Invoked User.updateAchievements");
+            PreparedStatement ps = Main.db.prepareStatement("UPDATE Users SET Achievements = Achievements + 1 WHERE Username = ?");
+            ps.setString(1, Username);
+            ps.execute();
+            return "{\"OK\": \"Quiz updated\"}";
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"Error\": \"Unable to update item, please see server console for more info.\"}";
+        }
+    }
+
+
     @GET
     @Path("name")
     public String userName(@CookieParam("sessionToken") Cookie sessionCookie) {
@@ -178,6 +213,24 @@ public class User {
             System.out.println("Database Error: " + exception.getMessage());
             return "Error";
         }
+    }
+
+    @POST
+    @Path("addScore/{QuizID}")
+    public String scoreAdd(@FormDataParam("QuizID") Integer QuizID, @FormDataParam("UserID") Integer UserID, @FormDataParam("Score") Integer Score) {
+        System.out.println("Invoked User.scoreAdd()");
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Scores (QuizID, UserID, Score ) VALUES ( ?, ?, ?)");
+            ps.setInt(1, QuizID);
+            ps.setInt(2, UserID);
+            ps.setInt(3, Score);
+            ps.execute();
+            return "{\"OK\": \"Added quiz.\"}";
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"Error\": \"Unable to create new item, please see server console for more info.\"}";
+        }
+
     }
 
     @GET

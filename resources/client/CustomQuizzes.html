@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/home.css">
-    <title>Home</title>
+    <title>Custom Quizzes</title>
 
     <script>
 
@@ -12,7 +12,7 @@
 
             //get the quizes and then display on page
 
-            const url = "/quiz/list/";	// API method on webserver will be in Weight class with @Path of list
+            const url = "/quiz/customList/";	// API method on webserver will be in Weight class with @Path of list
 
             fetch(url, {
                 method: "GET",
@@ -91,13 +91,18 @@ Welcome to Quiz World!!
 <br>
 <div class="Toolbar">
     <button id="ProfileButton" type="button" onclick=window.open("profile.html","_self")>Profile</button>
-    <button id="CustomQuizButton" type="button" onclick=window.open("CustomQuizzes.html","_self")>Custom Quizzes</button>
+    <button id="CustomQuizButton" type="button" onclick=window.open("Home.html","_self")>Main Quizzes</button>
     <button id="LogOutButton" type="button" onclick=window.open("Login.html","_self") >Logout</button>
 
 </div>
 <br><br>
 Choose a Quiz:
 <table id="QuizTable"></table>
+
+</body>
+</html>
+</head>
+<body>
 
 </body>
 </html>

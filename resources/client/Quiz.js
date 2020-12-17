@@ -1,8 +1,12 @@
 const startButton = document.getElementById('start-btn')
 const nextButton = document.getElementById('next-btn')
+const EndButton = document.getElementById('end-btn')
+let btn = document.getElementsByClassName("btn")
 const questionContainerElement = document.getElementById('question-container')
 startButton.addEventListener('click', startGame)
-
+let score = 0;
+let points = 0;
+let limit = false;
 const questionElement = document.getElementById('question')
 const answerButtonsElement = document.getElementById('answer-buttons')
 
@@ -10,6 +14,7 @@ let shuffledQuestions, currentQuestionIndex
 
 nextButton.addEventListener('click', () =>{
     currentQuestionIndex++
+    limit = 0;
     setNextQuestion()
 })
 
@@ -58,13 +63,42 @@ function selectAnswer(e){
     Array.from(answerButtonsElement.children).forEach(button =>{
         setStatusClass(button, button.dataset.correct)
     })
+    if (!selectedButton.dataset.correct){
+        limit = true;
+        console.log(score);
+    }
+    if (selectedButton.dataset.correct && limit == false){
+        score += 1;
+        limit = true;
+        console.log(score);
+    }
     if (shuffledQuestions.length > currentQuestionIndex + 1) {
         nextButton.classList.remove('hide')
     } else{
-        startButton.innerText = 'Restart'
-        startButton.classList.remove('hide')
+        EndButton.classList.remove("hide")
+
     }
 
+}
+
+function endQuiz(){
+    alert("You got:" + score/points * 100 + "%");
+    let Username = sessionStorage.getItem("Username");
+    const url = "User/updateAchievements/";
+
+    fetch(url + Username, {
+        method: "POST",
+    }).then(response => {
+        return response.json();
+    }).then(response =>{
+        if (response.hasOwnProperty("Error")){
+            alert(JSON.stringify(response));
+        } else{
+            console.log(response);
+        }
+    })
+
+    window.open("Home.html", "_self");
 }
 
 function setStatusClass(element, correct){
@@ -84,6 +118,7 @@ function clearStatusClass(element){
 function pageLoad()
 {
     getQuestionList();
+    getPoints();
 }
 
 
@@ -102,17 +137,31 @@ function getQuestionList(){
             alert(JSON.stringify(response));
         } else{
             console.log(response);
-            //formatQuestionList(response);
         }
         questions = response;
-
-
-
-
     })
 }
 
+function getPoints(){
+    console.log("Invoked getPoints()");
 
+    let QuizID = sessionStorage.getItem("QuizID");
+    const url = "/quiz/listPoints/";
+
+    fetch(url + QuizID, {
+        method: "GET",
+    }).then(response => {
+        return response.json();
+    }).then(response =>{
+        if (response.hasOwnProperty("Error")){
+            alert(JSON.stringify(response));
+        } else{
+            console.log(response);
+            //formatQuestionList(response);
+        }
+        points = response.Points;
+    })
+}
 
 
 let questions = [

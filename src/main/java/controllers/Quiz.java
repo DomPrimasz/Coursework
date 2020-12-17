@@ -21,13 +21,37 @@ public class Quiz {
         System.out.println("Invoked quiz.quizList()");
         JSONArray response = new JSONArray();
         try {
-            PreparedStatement ps = Main.db.prepareStatement("SELECT QuizID, Title, Description FROM Quizzes WHERE Custom = 0");
+            PreparedStatement ps = Main.db.prepareStatement("SELECT QuizID, Title, Description, Points FROM Quizzes WHERE Custom = 0");
             ResultSet results = ps.executeQuery();
             while (results.next() == true) {
                 JSONObject row = new JSONObject();
                 row.put("QuizID", results.getInt(1));
                 row.put("Title", results.getString(2));
                 row.put("Description", results.getString(3));
+                row.put("Points", results.getInt(4));
+                response.add(row);
+            }
+            return response.toString();
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"Error\": \"Unable to list items.  Error code xx.\"}";
+        }
+    }
+
+    @GET
+    @Path("customList")
+    public String customQuizList() {
+        System.out.println("Invoked quiz.customquizList()");
+        JSONArray response = new JSONArray();
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("SELECT QuizID, Title, Description, Points FROM Quizzes WHERE Custom = 1");
+            ResultSet results = ps.executeQuery();
+            while (results.next() == true) {
+                JSONObject row = new JSONObject();
+                row.put("QuizID", results.getInt(1));
+                row.put("Title", results.getString(2));
+                row.put("Description", results.getString(3));
+                row.put("Points", results.getInt(4));
                 response.add(row);
             }
             return response.toString();
@@ -59,6 +83,27 @@ public class Quiz {
                 Exception exception) {
             System.out.println("Database Error: " + exception.getMessage());
             return "{\"Error\": \"Unable to list items.  Error code xx.\"}";
+        }
+    }
+
+    @GET
+    @Path("listPoints/{QuizID}")
+    public String scoreList(@PathParam("QuizID") String QuizID) {
+        System.out.println("Invoked Quiz.listPoints(");
+        JSONObject row = new JSONObject();
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("SELECT Points FROM Quizzes WHERE QuizID = ?");
+            ps.setString(1, QuizID);
+            ResultSet results = ps.executeQuery();
+            while (results.next() == true) {
+                row.put("Points", results.getInt(1));
+            }
+            return row.toString();
+
+        } catch (
+                Exception exception) {
+            System.out.println("Database Error: " + exception.getMessage());
+            return "Error";
         }
     }
 
