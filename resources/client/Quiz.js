@@ -98,7 +98,7 @@ function endQuiz(){
         }
     })
 
-    //window.open("Home.html", "_self");
+    window.open("Home.html", "_self");
 }
 
 function setStatusClass(element, correct){
