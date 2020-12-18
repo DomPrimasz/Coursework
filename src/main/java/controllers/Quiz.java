@@ -158,10 +158,10 @@ public class Quiz {
 
     @POST
     @Path("add")
-    public String quizAdd(@FormDataParam("QuizID") Integer QuizID, @FormDataParam("Title") String Title, @FormDataParam("Description") String Description, @FormDataParam("Points") Integer Points) {
+    public String quizAdd(@FormDataParam("Title") String Title, @FormDataParam("Description") String Description, @FormDataParam("Points") Integer Points) {
         System.out.println("Invoked Quizzes.QuizAdd()");
         try {
-            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Quizzes (Title, Description, Points ) VALUES ( ?, ?, ?)");
+            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Quizzes (Title, Description, Points, Custom ) VALUES ( ?, ?, ?, 1)");
             ps.setString(1, Title);
             ps.setString(2, Description);
             ps.setInt(3, Points);

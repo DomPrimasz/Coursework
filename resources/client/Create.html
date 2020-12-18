@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/home.css">
+    <title>Create</title>
+    <script>
+        function postQuiz(){
+            const url = "/quiz/add/";	// API method on webserver will be in Weight class with @Path of list
+
+            var formData = new FormData(document.getElementById('quizForm'));
+
+            fetch(url, {
+                method: "POST",
+                body: formData,
+            }).then(response => {
+                return response.json();                 //return response to JSON
+            }).then(response => {
+                if (response.hasOwnProperty("Error")) { //checks if response from server has a key "Error"
+                    alert(JSON.stringify(response));    // if it does, convert JSON object to string and alert
+                } else {
+                    console.log(response);
+                }
+
+            });
+        }
+
+
+        function postQuestion(){
+
+        }
+
+    </script>
+</head>
+<body>
+Create A Quiz
+<br>
+<br>
+<form id="quizForm">
+    Quiz name
+    <input type="text" name="Title" id="Title">
+    Description
+    <input type="text" name="Description" id="Description">
+    Points
+    <input type="text" name="Points" id="Points">
+</form>
+<button class="button" onclick='postQuiz();'>SUBMIT</button>
+
+<form id="QuestionForm">
+    Question
+    <input type="text" name="Question" id="Question">
+</form>
+
+<button class="button" onclick='postQuestion();'>SUBMIT</button>
+</body>
+</html>
