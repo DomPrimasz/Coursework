@@ -1,16 +1,13 @@
-body
-{
-    background-color: mediumpurple;
+body {
+     background-color: mediumpurple;
     font-family: "Bodoni MT Black";
     font-size: 40px;
     text-align: center;
-
 }
 
 
 
-button
-{
+button{
     background-color: red;
 }
 
@@ -19,7 +16,6 @@ table{
     border: 20px solid black;
     background-color: lightseagreen;
     margin-left: 550px;
-
 }
 
 .QuizTitle{
@@ -29,7 +25,6 @@ table{
 .QuizDescription{
     color: royalblue;
 }
-
 
 .alertQuizName{
     margin-bottom: 20px;

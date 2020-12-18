@@ -12,7 +12,12 @@
         function pageLoad() {
             console.log("invoked pageload");
 
-            //get the quizes and then display on page
+            //set background image
+            if (sessionStorage.getItem("Event")== "Christmas") {
+                document.body.style.backgroundImage = "url('/client/img/Christmas.jpg')";
+            }
+
+            //get the quizzes and then display on page
 
             const url = "/quiz/list/";	// API method on webserver will be in Weight class with @Path of list
 
