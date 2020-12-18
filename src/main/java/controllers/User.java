@@ -19,6 +19,8 @@ import java.util.UUID;
 @Path("user/")
 @Consumes(MediaType.MULTIPART_FORM_DATA)
 @Produces(MediaType.APPLICATION_JSON)
+
+
 public class User {
 
     @POST
@@ -153,16 +155,18 @@ public class User {
     }
 
 
-
     @POST
-    @Path("updateAchievements/{Username}")
-    public String updateQuiz(@FormDataParam("Username") String Username) {
+    @Path("updateachievements/{Username}")
+    public String updateQuiz(@PathParam("Username") String Username) {
+
+        System.out.println("Invoked user.updateachievements()");
+
         try {
             System.out.println("Invoked User.updateAchievements");
             PreparedStatement ps = Main.db.prepareStatement("UPDATE Users SET Achievements = Achievements + 1 WHERE Username = ?");
             ps.setString(1, Username);
             ps.execute();
-            return "{\"OK\": \"Quiz updated\"}";
+            return "{\"OK\": \"Acheivements updated\"}";
         } catch (Exception exception) {
             System.out.println("Database error: " + exception.getMessage());
             return "{\"Error\": \"Unable to update item, please see server console for more info.\"}";

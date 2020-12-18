@@ -84,7 +84,7 @@ function selectAnswer(e){
 function endQuiz(){
     alert("You got:" + score/points * 100 + "%");
     let Username = sessionStorage.getItem("Username");
-    const url = "User/updateAchievements/";
+    const url = "/user/updateachievements/";
 
     fetch(url + Username, {
         method: "POST",
@@ -98,7 +98,7 @@ function endQuiz(){
         }
     })
 
-    window.open("Home.html", "_self");
+    //window.open("Home.html", "_self");
 }
 
 function setStatusClass(element, correct){
@@ -164,21 +164,6 @@ function getPoints(){
 }
 
 
-let questions = [
-    {
-        question: 'Who made "Shape of you"?',
-        answers: [
-            {text: 'Kanye West', correct: 0},
-            {text: 'Ed Sheeran', correct: 1}
-        ],
-    },
-    {
-        question: 'How many days in a year"?',
-        answers: [
-            {text: '28', correct: false},
-            {text: '365', correct: true}
-        ]
-    }
-]
+
 
 
