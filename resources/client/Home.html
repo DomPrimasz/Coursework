@@ -17,6 +17,9 @@
                 document.body.style.backgroundImage = "url('/client/img/Christmas.jpg')";
             }
 
+            else if (sessionStorage.getItem("Event")== "Easter") {
+                document.body.style.backgroundImage = "url('/client/img/Easter.jpg')";
+            }
             //get the quizzes and then display on page
 
             const url = "/quiz/list/";	// API method on webserver will be in Weight class with @Path of list

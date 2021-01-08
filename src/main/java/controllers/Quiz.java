@@ -4,6 +4,7 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import server.Main;
+import sun.security.krb5.internal.crypto.Des;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -14,7 +15,11 @@ import java.sql.ResultSet;
 @Consumes(MediaType.MULTIPART_FORM_DATA)
 @Produces(MediaType.APPLICATION_JSON)
 
+
+
 public class Quiz {
+    int QuestionID;
+    int QuizID;
     @GET
     @Path("list")
     public String quizList() {
@@ -32,6 +37,46 @@ public class Quiz {
                 response.add(row);
             }
             return response.toString();
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"Error\": \"Unable to list items.  Error code xx.\"}";
+        }
+    }
+
+    @GET
+    @Path("list/{Title}")
+    public String quizListSpecific(@PathParam("Title") String Title)  {
+        System.out.println("Invoked quiz.quizSpecificList()");
+        JSONObject row = new JSONObject();
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("SELECT QuizID FROM Quizzes WHERE Title = ?");
+            ps.setString(1, Title);
+            ResultSet results = ps.executeQuery();
+            while (results.next() == true) {
+                row.put("QuizID", results.getInt(1));
+                QuizID = results.getInt(1);
+            }
+            return row.toString();
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"Error\": \"Unable to list items.  Error code xx.\"}";
+        }
+    }
+
+    @GET
+    @Path("listQuestionID/{Question}")
+    public String questionListSpecific(@PathParam("Question") String Question)  {
+        System.out.println("Invoked quiz.questionSpecificList()");
+        JSONObject row = new JSONObject();
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("SELECT QuestionID FROM Questions WHERE Title = ?");
+            ps.setString(1, Question);
+            ResultSet results = ps.executeQuery();
+            while (results.next() == true) {
+                row.put("QuestionID", results.getInt(1));
+                QuestionID = results.getInt(1);
+            }
+            return row.toString();
         } catch (Exception exception) {
             System.out.println("Database error: " + exception.getMessage());
             return "{\"Error\": \"Unable to list items.  Error code xx.\"}";
@@ -174,6 +219,60 @@ public class Quiz {
 
     }
 
+    @POST
+    @Path("addQuestion/{QuizID}")
+    public String addQuestion(@PathParam("QuizID") Integer QuizID, @FormDataParam("Question") String Question) {
+        System.out.println("Invoked Quizzes.QuizAddQuestion()");
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Questions (QuizID, Title) VALUES ( ?, ?)");
+            ps.setInt(1, QuizID);
+            ps.setString(2, Question);
+            ps.execute();
+            return "{\"OK\": \"Added question.\"}";
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"Error\": \"Unable to create new item, please see server console for more info.\"}";
+        }
+
+    }
+
+    @POST
+    @Path("addCorrectAnswer/{QuizID}")
+    public String quizAddCorrectAnswer(@PathParam("QuizID") Integer QuizID, @FormDataParam("Description") String Description, @FormDataParam("QuestionID") Integer QuestionID) {
+        System.out.println("Invoked Quizzes.QuizAddCorrectAnswer()");
+        System.out.println(QuestionID);
+        System.out.println(Description);
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Answers (QuizID, QuestionID, Description, Correct) VALUES ( ?, ?, ?, 1)");
+            ps.setInt(1, QuizID);
+            ps.setInt(2, QuestionID);
+            ps.setString(3, Description);
+            ps.execute();
+            return "{\"OK\": \"Added Correct answer.\"}";
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"Error\": \"Unable to create new item, please see server console for more info.\"}";
+        }
+
+    }
+
+    @POST
+    @Path("addInCorrectAnswer/{QuizID}")
+    public String quizAddInCorrectAnswer(@PathParam("QuizID") Integer QuizID, @FormDataParam("QuestionID") Integer QuestionID, @FormDataParam("Description") String Description) {
+        System.out.println("Invoked Quizzes.QuizAddInCorrectAnswer()");
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("INSERT INTO Answers (QuizID, QuestionID, Description, Correct) VALUES ( ?, ?, ?, 0)");
+            ps.setInt(1, QuizID);
+            ps.setInt(2, QuestionID);
+            ps.setString(3, Description);
+            ps.execute();
+            return "{\"OK\": \"Added InCorrect answer.\"}";
+        } catch (Exception exception) {
+            System.out.println("Database error: " + exception.getMessage());
+            return "{\"Error\": \"Unable to create new item, please see server console for more info.\"}";
+        }
+
+    }
 
     @POST
     @Path("update")

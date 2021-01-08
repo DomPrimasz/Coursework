@@ -5,12 +5,115 @@
     <link rel="stylesheet" href="css/home.css">
     <title>Create</title>
     <script>
-        function postQuiz(){
-            const url = "/quiz/add/";	// API method on webserver will be in Weight class with @Path of list
 
-            var formData = new FormData(document.getElementById('quizForm'));
+
+        function postQuiz(){
+            const url = "/quiz/add/";
+            let formData = new FormData(document.getElementById('quizForm'));
+            console.log(document.getElementById('Title').value);
 
             fetch(url, {
+                method: "POST",
+                body: formData,
+            }).then(response => {
+                return response.json();                 //return response to JSON
+            }).then(response => {
+                if (response.hasOwnProperty("Error")) { //checks if response from server has a key "Error"
+                    alert(JSON.stringify(response));    // if it does, convert JSON object to string and alert
+                } else {
+                    console.log(response);
+                    getQuizID();
+                }
+
+            });
+
+
+
+        }
+
+        function getQuizID()
+        {
+            //Get Quiz ID
+            const url2 = "/quiz/list/";
+            let title = document.getElementById('Title').value;
+            console.log(title);
+
+            fetch(url2 + title, {
+                method: "GET",
+            }).then(response => {
+                return response.json();
+            }).then(response =>{
+                if (response.hasOwnProperty("Error")){
+                    alert(JSON.stringify(response));
+                } else{
+                    console.log(response);
+
+                }
+                QuizID = response.QuizID;
+                console.log(QuizID);
+            })
+        }
+
+
+        function postQuestion(){
+            const url = "/quiz/addQuestion/";
+            let formData = new FormData(document.getElementById('QuestionForm'));
+            fetch(url + QuizID, {
+                method: "POST",
+                body: formData,
+            }).then(response => {
+                return response.json();                 //return response to JSON
+            }).then(response => {
+                if (response.hasOwnProperty("Error")) { //checks if response from server has a key "Error"
+                    alert(JSON.stringify(response));    // if it does, convert JSON object to string and alert
+                } else {
+                    console.log(response);
+                    getQuestionID();
+                }
+
+            });
+
+        }
+
+        function getQuestionID(){
+            var question = document.getElementById('Question').value;
+            console.log(question);
+            var url = "/quiz/listQuestionID/";
+            fetch(url + question, {
+                method: "GET",
+            }).then(response => {
+                return response.json();
+            }).then(response =>{
+                if (response.hasOwnProperty("Error")){
+                    alert(JSON.stringify(response));
+                } else{
+                    console.log(response);
+
+                }
+                let QuestionID = response.QuestionID;
+                console.log("it's questionID " +QuestionID);
+                sessionStorage.setItem("QuestionID", QuestionID);
+                document.getElementById('Title').value = QuestionID;
+                document.getElementById('Description').value = QuizID;
+
+            })
+
+        }
+
+        function postCorrectAnswer()
+        {
+            console.log("I HAVE QUESTIONID OF: " + sessionStorage.getItem("QuestionID"));
+            let QuestionID = sessionStorage.getItem("QuestionID");
+            var url = "/quiz/addCorrectAnswer/";
+            console.log("answer is"+ document.getElementById('Answer1').value);
+            let Description = document.getElementById('Answer1').value;
+            document.getElementById('Points').value = Description;
+            var formData = new FormData;
+            formData.append('Description',Description);
+            formData.append('QuestionID', QuestionID);
+
+
+            fetch(url + QuizID, {
                 method: "POST",
                 body: formData,
             }).then(response => {
@@ -23,10 +126,93 @@
                 }
 
             });
+
         }
 
+        function postInCorrectAnswer1()
+        {
+            console.log("I HAVE QUESTIONID OF: " + sessionStorage.getItem("QuestionID"));
+            let QuestionID = sessionStorage.getItem("QuestionID");
+            var url = "/quiz/addInCorrectAnswer/";
+            console.log("answer is"+ document.getElementById('Answer2').value);
+            let Description = document.getElementById('Answer2').value;
+            var formData = new FormData;
+            formData.append('Description',Description);
+            formData.append('QuestionID', QuestionID);
 
-        function postQuestion(){
+
+            fetch(url + QuizID, {
+                method: "POST",
+                body: formData,
+            }).then(response => {
+                return response.json();                 //return response to JSON
+            }).then(response => {
+                if (response.hasOwnProperty("Error")) { //checks if response from server has a key "Error"
+                    alert(JSON.stringify(response));    // if it does, convert JSON object to string and alert
+                } else {
+                    console.log(response);
+
+                }
+
+            });
+
+        }
+
+        function postInCorrectAnswer2()
+        {
+            console.log("I HAVE QUESTIONID OF: " + sessionStorage.getItem("QuestionID"));
+            let QuestionID = sessionStorage.getItem("QuestionID");
+            var url = "/quiz/addInCorrectAnswer/";
+            console.log("answer is"+ document.getElementById('Answer3').value);
+            let Description = document.getElementById('Answer3').value;
+            var formData = new FormData;
+            formData.append('Description',Description);
+            formData.append('QuestionID', QuestionID);
+
+
+            fetch(url + QuizID, {
+                method: "POST",
+                body: formData,
+            }).then(response => {
+                return response.json();                 //return response to JSON
+            }).then(response => {
+                if (response.hasOwnProperty("Error")) { //checks if response from server has a key "Error"
+                    alert(JSON.stringify(response));    // if it does, convert JSON object to string and alert
+                } else {
+                    console.log(response);
+
+                }
+
+            });
+
+        }
+
+        function postInCorrectAnswer3()
+        {
+            console.log("I HAVE QUESTIONID OF: " + sessionStorage.getItem("QuestionID"));
+            let QuestionID = sessionStorage.getItem("QuestionID");
+            var url = "/quiz/addInCorrectAnswer/";
+            console.log("answer is"+ document.getElementById('Answer4').value);
+            let Description = document.getElementById('Answer4').value;
+            var formData = new FormData;
+            formData.append('Description',Description);
+            formData.append('QuestionID', QuestionID);
+
+
+            fetch(url + QuizID, {
+                method: "POST",
+                body: formData,
+            }).then(response => {
+                return response.json();                 //return response to JSON
+            }).then(response => {
+                if (response.hasOwnProperty("Error")) { //checks if response from server has a key "Error"
+                    alert(JSON.stringify(response));    // if it does, convert JSON object to string and alert
+                } else {
+                    console.log(response);
+
+                }
+
+            });
 
         }
 
@@ -50,7 +236,34 @@ Create A Quiz
     Question
     <input type="text" name="Question" id="Question">
 </form>
-
 <button class="button" onclick='postQuestion();'>SUBMIT</button>
+
+<form id="CorrectAnswer">
+    CorrectAnswer
+    <input type="text" name="Answer1" id="Answer1">
+</form>
+<button class="button" onclick='postCorrectAnswer();'>SUBMIT</button>
+
+<form id="IncorrectAnswer1">
+    IncorrectAnswer
+    <input type="text" name="IncorrectAnswer1" id="Answer2">
+</form>
+    <button class="button" onclick='postInCorrectAnswer1();'>SUBMIT</button>
+
+<form id="IncorrectAnswer2">
+    IncorrectAnswer2
+    <input type="text" name="IncorrectAnswer2" id="Answer3">
+</form>
+    <button class="button" onclick='postInCorrectAnswer2();'>SUBMIT</button>
+
+<form id="IncorrectAnswer3">
+    IncorrectAnswer3
+    <input type="text" name="IncorrectAnswer3" id="Answer4">
+</form>
+    <button class="button" onclick='postInCorrectAnswer3();'>SUBMIT</button>
+
+</form>
+
+
 </body>
 </html>
